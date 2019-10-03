@@ -6,10 +6,15 @@ Name: zoom
 Version: 3.0.301026.0930
 Release: 1
 URL: https://www.zoom.us/
-Source: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.tar.xz
+Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.tar.xz
+Source1: Zoom.desktop
+Source2: Zoom.png
+Source3: zoom.xml
 License: Zoom
 ExclusiveArch: x86_64
+BuildRequires: desktop-file-utils
 BuildRequires: chrpath
+Requires: hicolor-icon-theme
 Requires: libfaac.so.0()(64bit)
 Requires: libmpg123.so.0()(64bit)
 Requires: libquazip.so.1()(64bit)
@@ -46,6 +51,10 @@ sed -i -e "s,/opt/zoom,%{_libdir}/zoom," zoomlinux
 install -dm755 %{buildroot}{%{_bindir},%{_libdir}/zoom}
 cp -pr * %{buildroot}%{_libdir}/zoom/
 
+desktop-file-install --dir %{buildroot}%{_datadir}/applications %{S:1}
+install -Dpm644 %{S:2} %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/Zoom.png
+install -Dpm644 %{S:3} %{buildroot}%{_datadir}/mime/packages/zoom.xml
+
 ln -s ../%{_lib}/zoom/ZoomLauncher %{buildroot}%{_bindir}/zoom
 ln -s ../libfaac.so.0 %{buildroot}%{_libdir}/zoom/libfaac1.so
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
@@ -54,9 +63,13 @@ ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 
 %files
 %{_bindir}/zoom
+%{_datadir}/applications/Zoom.desktop
+%{_datadir}/icons/hicolor/256x256/apps/Zoom.png
+%{_datadir}/mime/packages/zoom.xml
 %{_libdir}/zoom
 
 %changelog
 * Thu Oct 03 2019 Dominik Mierzejewski <rpm@greysector.net> 3.0.301026.0930-1
 - initial build
 - unbundle faac, mpg123, quazip and turbojpeg
+- add desktop file, icon and MIME type drop-in
