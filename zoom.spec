@@ -3,7 +3,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 3.0.301026.0930
+Version: 3.0.306796.1020
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.tar.xz
@@ -40,8 +40,8 @@ chrpath -d zopen
 rm \
   libfaac1.so \
   libmpg123.so \
-  libquazip* \
-  libturbojpeg* \
+  libquazip.so* \
+  libturbojpeg.so* \
 
 sed -i -e "s,/opt/zoom,%{_libdir}/zoom," zoomlinux
 
@@ -69,6 +69,9 @@ ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 %{_libdir}/zoom
 
 %changelog
+* Mon Oct 21 2019 Dominik Mierzejewski <rpm@greysector.net> 3.0.306796.1020-1
+- update to latest release
+
 * Thu Oct 03 2019 Dominik Mierzejewski <rpm@greysector.net> 3.0.301026.0930-1
 - initial build
 - unbundle faac, mpg123, quazip and turbojpeg
