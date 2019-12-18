@@ -3,7 +3,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 3.0.306796.1020
+Version: 3.5.336627.1216
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.tar.xz
@@ -69,6 +69,9 @@ ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 %{_libdir}/zoom
 
 %changelog
+* Wed Dec 18 2019 Dominik Mierzejewski <rpm@greysector.net> 3.5.336627.1216-1
+- update to 3.5.336627.1216
+
 * Mon Oct 21 2019 Dominik Mierzejewski <rpm@greysector.net> 3.0.306796.1020-1
 - update to latest release
 
