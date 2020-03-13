@@ -56,6 +56,10 @@ chrpath -d platforminputcontexts/libfcitxplatforminputcontextplugin.so
 chrpath -d zoom
 chrpath -d zopen
 rm \
+%ifarch i686
+  libcrypto.so* \
+  libssl.so* \
+%endif
   libfaac1.so \
   libmpg123.so \
   libquazip.so* \
