@@ -1,28 +1,34 @@
 %define _enable_debug_packages %{nil}
 %define debug_package          %{nil}
+%ifarch x86_64
+%global suf ()(64bit)
+%else
+%global suf %nil
+%endif
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 3.5.336627.1216
+Version: 3.5.361976.0301
 Release: 1
 URL: https://www.zoom.us/
-Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.tar.xz
+Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
 Source1: Zoom.desktop
 Source2: Zoom.png
 Source3: zoom.xml
+Source4: https://zoom.us/client/%{version}/zoom_i686.tar.xz#/zoom-%{version}.i686.tar.xz
 License: Zoom
-ExclusiveArch: x86_64
+ExclusiveArch: i686 x86_64
 BuildRequires: desktop-file-utils
 BuildRequires: chrpath
 Requires: hicolor-icon-theme
-Requires: libfaac.so.0()(64bit)
-Requires: libmpg123.so.0()(64bit)
-Requires: libquazip.so.1()(64bit)
-Requires: libturbojpeg.so.0()(64bit)
+Requires: libfaac.so.0%{suf}
+Requires: libmpg123.so.0%{suf}
+Requires: libquazip.so.1%{suf}
+Requires: libturbojpeg.so.0%{suf}
 
 # Qt5 cannot be unbundled as the application uses private APIs
 %global __provides_exclude_from ^%{_libdir}/zoom
-%global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Multimedia\|Network\|OpenGL\|Positioning\|PrintSupport\|Qml\|Quick\(Widgets\|Controls2\|Particles\|Templates2\)\?\|Sql\|Script\|Svg\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5.*$
+%global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\|PrintSupport\|Qml\|Quick\(Widgets\|Controls2\|Particles\|Templates2\)\?\|Sensors\|Script\|Sql\|Svg\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5.*$
 
 %description
 Zoom, the cloud meeting company, unifies cloud video conferencing, simple online
@@ -31,10 +37,22 @@ the best video, audio, and screen-sharing experience across Zoom Rooms, Window
 s, Mac, Linux, iOS, Android, and H.323/SIP room systems.
 
 %prep
+%ifarch x86_64
 %setup -q -n zoom
-chmod -x *.pcm *.pem sip/*.wav
+%else
+%setup -qT -b 4 -n zoom
+%endif
+chmod -x \
+  *.pcm \
+  *.pem \
+  sip/*.wav \
+  Qt*/{qmldir,*.qml} \
+  timezones/*/timezones.txt \
+
 chrpath -d libquazip.so.1.0.0
+%ifarch x86_64
 chrpath -d platforminputcontexts/libfcitxplatforminputcontextplugin.so
+%endif
 chrpath -d zoom
 chrpath -d zopen
 rm \
@@ -42,6 +60,7 @@ rm \
   libmpg123.so \
   libquazip.so* \
   libturbojpeg.so* \
+  getbssid.sh \
 
 sed -i -e "s,/opt/zoom,%{_libdir}/zoom," zoomlinux
 
@@ -60,6 +79,7 @@ ln -s ../libfaac.so.0 %{buildroot}%{_libdir}/zoom/libfaac1.so
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
 ln -s ../libquazip.so.1 %{buildroot}%{_libdir}/zoom/libquazip.so
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
+ln -s /bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 
 %files
 %{_bindir}/zoom
@@ -69,6 +89,13 @@ ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 %{_libdir}/zoom
 
 %changelog
+* Fri Mar 13 2020 Dominik Mierzejewski <rpm@greysector.net> 3.5.361976.0301-1
+- update to 3.5.361976.0301
+- support building the 32-bit version
+- update requires filter
+- replace getbssid.sh with /bin/true
+- remove unnecessary executable bits from text files
+
 * Wed Dec 18 2019 Dominik Mierzejewski <rpm@greysector.net> 3.5.336627.1216-1
 - update to 3.5.336627.1216
 
