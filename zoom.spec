@@ -8,7 +8,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 3.5.385850.0413
+Version: 5.0.398100.0427
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -53,13 +53,10 @@ chrpath -d libquazip.so.1.0.0
 %ifarch x86_64
 chrpath -d platforminputcontexts/libfcitxplatforminputcontextplugin.so
 %endif
+execstack -c zoom
 chrpath -d zoom
 chrpath -d zopen
 rm \
-%ifarch i686
-  libcrypto.so* \
-  libssl.so* \
-%endif
   libfaac1.so \
   libmpg123.so \
   libquazip.so* \
@@ -93,6 +90,10 @@ ln -s /bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Wed Apr 29 2020 Dominik Mierzejewski <rpm@greysector.net> 5.0.398100.0427-1
+- update to 5.0.398100.0427
+- drop executable stack bit from main binary
+
 * Thu Apr 16 2020 Dominik Mierzejewski <rpm@greysector.net> 3.5.385850.0413-1
 - update to 3.5.385850.0413
 
