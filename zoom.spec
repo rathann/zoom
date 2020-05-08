@@ -8,7 +8,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.0.398100.0427
+Version: 5.0.399860.0429
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -18,8 +18,9 @@ Source3: zoom.xml
 Source4: https://zoom.us/client/%{version}/zoom_i686.tar.xz#/zoom-%{version}.i686.tar.xz
 License: Zoom
 ExclusiveArch: i686 x86_64
-BuildRequires: desktop-file-utils
 BuildRequires: chrpath
+BuildRequires: desktop-file-utils
+BuildRequires: execstack
 Requires: hicolor-icon-theme
 Requires: libfaac.so.0%{suf}
 Requires: libmpg123.so.0%{suf}
@@ -90,6 +91,10 @@ ln -s /bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Fri May 08 2020 Dominik Mierzejewski <rpm@greysector.net> 5.0.399860.0429-1
+- update to 5.0.399860.0429
+- add missing build dependency on execstack
+
 * Wed Apr 29 2020 Dominik Mierzejewski <rpm@greysector.net> 5.0.398100.0427-1
 - update to 5.0.398100.0427
 - drop executable stack bit from main binary
