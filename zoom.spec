@@ -1,10 +1,5 @@
 %define _enable_debug_packages %{nil}
 %define debug_package          %{nil}
-%ifarch x86_64
-%global suf ()(64bit)
-%else
-%global suf %nil
-%endif
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
@@ -15,17 +10,16 @@ Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x
 Source1: Zoom.desktop
 Source2: Zoom.png
 Source3: zoom.xml
-Source4: https://zoom.us/client/%{version}/zoom_i686.tar.xz#/zoom-%{version}.i686.tar.xz
 License: Zoom
-ExclusiveArch: i686 x86_64
+ExclusiveArch: x86_64
 BuildRequires: chrpath
 BuildRequires: desktop-file-utils
 BuildRequires: execstack
 Requires: hicolor-icon-theme
-Requires: libfaac.so.0%{suf}
-Requires: libmpg123.so.0%{suf}
-Requires: libquazip.so.1%{suf}
-Requires: libturbojpeg.so.0%{suf}
+Requires: libfaac.so.0()(64bit)
+Requires: libmpg123.so.0()(64bit)
+Requires: libquazip.so.1()(64bit)
+Requires: libturbojpeg.so.0()(64bit)
 
 # Qt5 cannot be unbundled as the application uses private APIs
 %global __provides_exclude_from ^%{_libdir}/zoom
@@ -38,11 +32,7 @@ the best video, audio, and screen-sharing experience across Zoom Rooms, Window
 s, Mac, Linux, iOS, Android, and H.323/SIP room systems.
 
 %prep
-%ifarch x86_64
 %setup -q -n zoom
-%else
-%setup -qT -b 4 -n zoom
-%endif
 chmod -x \
   *.pcm \
   *.pem \
@@ -51,9 +41,7 @@ chmod -x \
   timezones/*/timezones.txt \
 
 chrpath -d libquazip.so.1.0.0
-%ifarch x86_64
 chrpath -d platforminputcontexts/libfcitxplatforminputcontextplugin.so
-%endif
 execstack -c zoom
 chrpath -d zoom
 chrpath -d zopen
@@ -93,6 +81,7 @@ ln -s /bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %changelog
 * Tue Jun 09 2020 Dominik Mierzejewski <rpm@greysector.net> 5.0.418682.0603-1
 - update to 5.0.418682.0603
+- drop 32-bit support
 
 * Thu May 28 2020 Dominik Mierzejewski <rpm@greysector.net> 5.0.413237.0524-1
 - update to 5.0.413237.0524
