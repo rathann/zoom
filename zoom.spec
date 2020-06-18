@@ -3,7 +3,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.0.418682.0603
+Version: 5.1.412382.0614
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -52,8 +52,6 @@ rm \
   libturbojpeg.so* \
   getbssid.sh \
 
-sed -i -e "s,/opt/zoom,%{_libdir}/zoom," zoomlinux
-
 %build
 
 %install
@@ -79,6 +77,9 @@ ln -s /bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Thu Jun 18 2020 Dominik Mierzejewski <rpm@greysector.net> 5.1.412382.0614-1
+- update to 5.1.412382.0614
+
 * Tue Jun 09 2020 Dominik Mierzejewski <rpm@greysector.net> 5.0.418682.0603-1
 - update to 5.0.418682.0603
 - drop 32-bit support
