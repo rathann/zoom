@@ -1,5 +1,6 @@
 %define _enable_debug_packages %{nil}
 %define debug_package          %{nil}
+%bcond_without bundled_qt5
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
@@ -21,6 +22,7 @@ Requires: libmpg123.so.0()(64bit)
 Requires: libquazip.so.1()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
 Provides: bundled(libicu) = 56.1
+%if %{with bundled_qt5}
 Provides: bundled(qt5-qtbase) = 5.9.6
 Provides: bundled(qt5-qtbase-gui) = 5.9.6
 Provides: bundled(qt5-qtdeclarative) = 5.9.6
@@ -34,8 +36,11 @@ Provides: bundled(qt5-qtx11extras) = 5.9.6
 Provides: bundled(qt5-qtxmlpatterns) = 5.9.6
 
 # Qt5 cannot be unbundled as the application uses private APIs
-%global __provides_exclude_from ^%{_libdir}/zoom
 %global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\|PrintSupport\|Qml\|Quick\(Widgets\|Controls2\|Particles\|Templates2\)\?\|Sensors\|Script\|Sql\|Svg\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5.*$
+%else
+%global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\)
+%endif
+%global __provides_exclude_from ^%{_libdir}/zoom
 
 %description
 Zoom, the cloud meeting company, unifies cloud video conferencing, simple online
@@ -53,11 +58,27 @@ chmod -x \
   timezones/*/timezones.txt \
 
 chrpath -d libquazip.so.1.0.0
+%if %{with bundled_qt5}
 chrpath -d platforminputcontexts/libfcitxplatforminputcontextplugin.so
+%endif
 execstack -c zoom
 chrpath -d zoom
 chrpath -d zopen
-rm \
+rm -r \
+%if ! %{with bundled_qt5}
+  audio \
+  egldeviceintegrations \
+  generic \
+  iconengines \
+  imageformats \
+  libQt5* \
+  platforminputcontexts \
+  platforms \
+  platformthemes \
+  Qt{,GraphicalEffects,Qml,Quick{,.2}} \
+  qtdiag \
+  xcbglintegrations \
+%endif
   libfaac1.so \
   libmpg123.so \
   libquazip.so* \
