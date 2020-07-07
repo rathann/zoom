@@ -3,7 +3,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.1.418436.0628
+Version: 5.1.422789.0705
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -20,6 +20,18 @@ Requires: libfaac.so.0()(64bit)
 Requires: libmpg123.so.0()(64bit)
 Requires: libquazip.so.1()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
+Provides: bundled(libicu) = 56.1
+Provides: bundled(qt5-qtbase) = 5.9.6
+Provides: bundled(qt5-qtbase-gui) = 5.9.6
+Provides: bundled(qt5-qtdeclarative) = 5.9.6
+Provides: bundled(qt5-qtgraphicaleffects) = 5.9.6
+Provides: bundled(qt5-qtimageformats) = 5.9.6
+Provides: bundled(qt5-qtquickcontrols) = 5.9.6
+Provides: bundled(qt5-qtquickcontrols2) = 5.9.6
+Provides: bundled(qt5-qtscript) = 5.9.6
+Provides: bundled(qt5-qtsvg) = 5.9.6
+Provides: bundled(qt5-qtx11extras) = 5.9.6
+Provides: bundled(qt5-qtxmlpatterns) = 5.9.6
 
 # Qt5 cannot be unbundled as the application uses private APIs
 %global __provides_exclude_from ^%{_libdir}/zoom
@@ -77,6 +89,10 @@ ln -s /bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Tue Jul 07 2020 Dominik Mierzejewski <rpm@greysector.net> 5.1.422789.0705-1
+- update to 5.1.422789.0705
+- add bundled libs to Provides:
+
 * Tue Jun 30 2020 Dominik Mierzejewski <rpm@greysector.net> 5.1.418436.0628-1
 - update to 5.1.418436.0628
 
