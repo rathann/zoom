@@ -16,6 +16,7 @@ ExclusiveArch: x86_64
 BuildRequires: chrpath
 BuildRequires: desktop-file-utils
 BuildRequires: execstack
+Requires: ca-certificates
 Requires: hicolor-icon-theme
 Requires: libfaac.so.0()(64bit)
 Requires: libmpg123.so.0()(64bit)
@@ -84,6 +85,7 @@ rm -r \
   libquazip.so* \
   libturbojpeg.so* \
   getbssid.sh \
+  zcacert.pem \
 
 %build
 
@@ -101,6 +103,7 @@ ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
 ln -s ../libquazip.so.1 %{buildroot}%{_libdir}/zoom/libquazip.so
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 ln -s /bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
+ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcacert.pem
 
 %files
 %{_bindir}/zoom
@@ -112,6 +115,7 @@ ln -s /bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %changelog
 * Wed Aug 05 2020 Dominik Mierzejewski <rpm@greysector.net> 5.2.440215.0803-1
 - update to 5.2.440215.0803
+- unbundle CA certificates
 
 * Tue Jul 07 2020 Dominik Mierzejewski <rpm@greysector.net> 5.1.422789.0705-1
 - update to 5.1.422789.0705
