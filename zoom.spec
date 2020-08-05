@@ -102,7 +102,7 @@ ln -s ../libfaac.so.0 %{buildroot}%{_libdir}/zoom/libfaac1.so
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
 ln -s ../libquazip.so.1 %{buildroot}%{_libdir}/zoom/libquazip.so
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
-ln -s /bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
+ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcacert.pem
 
 %files
