@@ -4,7 +4,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.2.440215.0803
+Version: 5.2.446620.0816
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -113,6 +113,9 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Mon Aug 17 2020 Dominik Mierzejewski <rpm@greysector.net> 5.2.446620.0816-1
+- update to 5.2.446620.0816
+
 * Wed Aug 05 2020 Dominik Mierzejewski <rpm@greysector.net> 5.2.440215.0803-1
 - update to 5.2.440215.0803
 - unbundle CA certificates
