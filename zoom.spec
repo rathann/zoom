@@ -4,7 +4,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.2.446620.0816
+Version: 5.2.454870.0831
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -14,6 +14,7 @@ Source3: zoom.xml
 License: Zoom
 ExclusiveArch: x86_64
 BuildRequires: chrpath
+BuildRequires: crudini
 BuildRequires: desktop-file-utils
 BuildRequires: execstack
 Requires: ca-certificates
@@ -59,9 +60,6 @@ chmod -x \
   timezones/*/timezones.txt \
 
 chrpath -d libquazip.so.1.0.0
-%if %{with bundled_qt5}
-chrpath -d platforminputcontexts/libfcitxplatforminputcontextplugin.so
-%endif
 execstack -c zoom
 chrpath -d zoom
 chrpath -d zopen
@@ -86,6 +84,8 @@ rm -r \
   libturbojpeg.so* \
   getbssid.sh \
   zcacert.pem \
+
+crudini --set qt.conf Paths Prefix %{_libdir}/zoom
 
 %build
 
@@ -113,6 +113,10 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Tue Sep 01 2020 Dominik Mierzejewski <rpm@greysector.net> 5.2.454870.0831-1
+- update to 5.2.454870.0831
+- correct Qt Prefix in qt.conf
+
 * Mon Aug 17 2020 Dominik Mierzejewski <rpm@greysector.net> 5.2.446620.0816-1
 - update to 5.2.446620.0816
 
