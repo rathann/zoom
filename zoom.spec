@@ -4,7 +4,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.2.454870.0831
+Version: 5.2.458699.0906
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -113,6 +113,9 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Tue Sep 08 2020 Dominik Mierzejewski <rpm@greysector.net> 5.2.458699.0906-1
+- update to 5.2.458699.0906
+
 * Tue Sep 01 2020 Dominik Mierzejewski <rpm@greysector.net> 5.2.454870.0831-1
 - update to 5.2.454870.0831
 - correct Qt Prefix in qt.conf
