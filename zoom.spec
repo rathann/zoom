@@ -4,7 +4,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.2.458699.0906
+Version: 5.3.465578.0920
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -16,10 +16,8 @@ ExclusiveArch: x86_64
 BuildRequires: chrpath
 BuildRequires: crudini
 BuildRequires: desktop-file-utils
-BuildRequires: execstack
 Requires: ca-certificates
 Requires: hicolor-icon-theme
-Requires: libfaac.so.0()(64bit)
 Requires: libmpg123.so.0()(64bit)
 Requires: libquazip.so.1()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
@@ -59,8 +57,6 @@ chmod -x \
   Qt*/{qmldir,*.qml} \
   timezones/*/timezones.txt \
 
-chrpath -d libquazip.so.1.0.0
-execstack -c zoom
 chrpath -d zoom
 chrpath -d zopen
 rm -r \
@@ -78,7 +74,6 @@ rm -r \
   qtdiag \
   xcbglintegrations \
 %endif
-  libfaac1.so \
   libmpg123.so \
   libquazip.so* \
   libturbojpeg.so* \
@@ -98,7 +93,6 @@ install -Dpm644 %{S:2} %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/Zoom.p
 install -Dpm644 %{S:3} %{buildroot}%{_datadir}/mime/packages/zoom.xml
 
 ln -s ../%{_lib}/zoom/ZoomLauncher %{buildroot}%{_bindir}/zoom
-ln -s ../libfaac.so.0 %{buildroot}%{_libdir}/zoom/libfaac1.so
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
 ln -s ../libquazip.so.1 %{buildroot}%{_libdir}/zoom/libquazip.so
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
@@ -113,6 +107,11 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Tue Sep 22 2020 Dominik Mierzejewski <rpm@greysector.net> 5.3.465578.0920-1
+- update to 5.3.465578.0920
+- FAAC is no longer required
+- drop execstack call, no longer required
+
 * Tue Sep 08 2020 Dominik Mierzejewski <rpm@greysector.net> 5.2.458699.0906-1
 - update to 5.2.458699.0906
 
