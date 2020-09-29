@@ -46,8 +46,8 @@ Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
 %description
 Zoom, the cloud meeting company, unifies cloud video conferencing, simple online
 meetings, and group messaging into one easy-to-use platform. Our solution offers
-the best video, audio, and screen-sharing experience across Zoom Rooms, Window
-s, Mac, Linux, iOS, Android, and H.323/SIP room systems.
+the best video, audio, and screen-sharing experience across Zoom Rooms, Windows,
+Mac, Linux, iOS, Android, and H.323/SIP room systems.
 
 %prep
 %setup -q -n zoom
