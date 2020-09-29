@@ -1,10 +1,11 @@
 %define _enable_debug_packages %{nil}
 %define debug_package          %{nil}
 %bcond_without bundled_qt5
+%global bundled_qt_version 5.9.9
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.3.465578.0920
+Version: 5.3.469451.0927
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -23,17 +24,17 @@ Requires: libquazip.so.1()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
 Provides: bundled(libicu) = 56.1
 %if %{with bundled_qt5}
-Provides: bundled(qt5-qtbase) = 5.9.6
-Provides: bundled(qt5-qtbase-gui) = 5.9.6
-Provides: bundled(qt5-qtdeclarative) = 5.9.6
-Provides: bundled(qt5-qtgraphicaleffects) = 5.9.6
-Provides: bundled(qt5-qtimageformats) = 5.9.6
-Provides: bundled(qt5-qtquickcontrols) = 5.9.6
-Provides: bundled(qt5-qtquickcontrols2) = 5.9.6
-Provides: bundled(qt5-qtscript) = 5.9.6
-Provides: bundled(qt5-qtsvg) = 5.9.6
-Provides: bundled(qt5-qtx11extras) = 5.9.6
-Provides: bundled(qt5-qtxmlpatterns) = 5.9.6
+Provides: bundled(qt5-qtbase) = %{bundled_qt_version}
+Provides: bundled(qt5-qtbase-gui) = %{bundled_qt_version}
+Provides: bundled(qt5-qtdeclarative) = %{bundled_qt_version}
+Provides: bundled(qt5-qtgraphicaleffects) = %{bundled_qt_version}
+Provides: bundled(qt5-qtimageformats) = %{bundled_qt_version}
+Provides: bundled(qt5-qtquickcontrols) = %{bundled_qt_version}
+Provides: bundled(qt5-qtquickcontrols2) = %{bundled_qt_version}
+Provides: bundled(qt5-qtscript) = %{bundled_qt_version}
+Provides: bundled(qt5-qtsvg) = %{bundled_qt_version}
+Provides: bundled(qt5-qtx11extras) = %{bundled_qt_version}
+Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
 
 # Qt5 cannot be unbundled as the application uses private APIs
 %global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\|PrintSupport\|Qml\|Quick\(Widgets\|Controls2\|Particles\|Templates2\)\?\|Sensors\|Script\|Sql\|Svg\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5.*$
@@ -107,6 +108,10 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Tue Sep 29 2020 Dominik Mierzejewski <rpm@greysector.net> 5.3.469451.0927-1
+- update to 5.3.469451.0927
+- update bundled Qt5 version declaration
+
 * Tue Sep 22 2020 Dominik Mierzejewski <rpm@greysector.net> 5.3.465578.0920-1
 - update to 5.3.465578.0920
 - FAAC is no longer required
