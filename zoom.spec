@@ -5,7 +5,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.3.469451.0927
+Version: 5.3.472687.1012
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -108,6 +108,9 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Wed Oct 14 2020 Dominik Mierzejewski <rpm@greysector.net> 5.3.472687.1012-1
+- update to 5.3.472687.1012
+
 * Tue Sep 29 2020 Dominik Mierzejewski <rpm@greysector.net> 5.3.469451.0927-1
 - update to 5.3.469451.0927
 - update bundled Qt5 version declaration
