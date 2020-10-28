@@ -1,11 +1,11 @@
 %define _enable_debug_packages %{nil}
 %define debug_package          %{nil}
 %bcond_without bundled_qt5
-%global bundled_qt_version 5.9.9
+%global bundled_qt_version 5.12.9
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.3.472687.1012
+Version: 5.4.53350.1027
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -33,11 +33,12 @@ Provides: bundled(qt5-qtquickcontrols) = %{bundled_qt_version}
 Provides: bundled(qt5-qtquickcontrols2) = %{bundled_qt_version}
 Provides: bundled(qt5-qtscript) = %{bundled_qt_version}
 Provides: bundled(qt5-qtsvg) = %{bundled_qt_version}
+Provides: bundled(qt5-qtwayland) = %{bundled_qt_version}
 Provides: bundled(qt5-qtx11extras) = %{bundled_qt_version}
 Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
 
 # Qt5 cannot be unbundled as the application uses private APIs
-%global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\|PrintSupport\|Qml\|Quick\(Widgets\|Controls2\|Particles\|Templates2\)\?\|Sensors\|Script\|Sql\|Svg\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5.*$
+%global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5.*$
 %else
 %global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\)
 %endif
@@ -58,8 +59,10 @@ chmod -x \
   Qt*/{qmldir,*.qml} \
   timezones/*/timezones.txt \
 
-chrpath -d zoom
-chrpath -d zopen
+for f in \
+  zo{om,pen} \
+  libicu{data,i18n,uc}.so.56.1 \
+; do chrpath -d $f ; done
 rm -r \
 %if ! %{with bundled_qt5}
   audio \
@@ -71,14 +74,18 @@ rm -r \
   platforminputcontexts \
   platforms \
   platformthemes \
-  Qt{,GraphicalEffects,Qml,Quick{,.2}} \
-  qtdiag \
+  Qt{,GraphicalEffects,Qml,Quick{,.2},Wayland} \
+  qt.conf \
   xcbglintegrations \
 %endif
   libmpg123.so \
   libquazip.so* \
   libturbojpeg.so* \
   getbssid.sh \
+  wayland-decoration-client \
+  wayland-graphics-integration-client \
+  wayland-graphics-integration-server \
+  wayland-shell-integration \
   zcacert.pem \
 
 crudini --set qt.conf Paths Prefix %{_libdir}/zoom
@@ -108,6 +115,11 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Wed Oct 28 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53350.1027-1
+- update to 5.4.53350.1027
+- update bundled Qt5 version declaration
+- unbundle wayland
+
 * Wed Oct 14 2020 Dominik Mierzejewski <rpm@greysector.net> 5.3.472687.1012-1
 - update to 5.3.472687.1012
 
