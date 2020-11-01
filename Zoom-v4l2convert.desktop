@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=Zoom (v4l2convert)
+Comment=Zoom Video Conference (V4L2 conversion wrapper)
+Exec=/usr/bin/zoom-v4l2convert %U
+Icon=Zoom
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Network;Application;
+StartupWMClass=Zoom
+MimeType=x-scheme-handler/zoommtg;application/x-zoom;
+X-KDE-Protocols=zoommtg
+Name[en_US]=Zoom

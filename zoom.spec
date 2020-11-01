@@ -6,12 +6,14 @@
 Summary: Video and Web Conferencing Service Client
 Name: zoom
 Version: 5.4.53350.1027
-Release: 1
+Release: 2
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
 Source1: Zoom.desktop
 Source2: Zoom.png
 Source3: zoom.xml
+Source4: Zoom-v4l2convert.desktop
+Source5: zoom-v4l2convert.sh
 License: Zoom
 ExclusiveArch: x86_64
 BuildRequires: chrpath
@@ -97,6 +99,8 @@ install -dm755 %{buildroot}{%{_bindir},%{_libdir}/zoom}
 cp -pr * %{buildroot}%{_libdir}/zoom/
 
 desktop-file-install --dir %{buildroot}%{_datadir}/applications %{S:1}
+desktop-file-install --dir %{buildroot}%{_datadir}/applications %{S:4}
+install -Dpm755 %{S:5} %{buildroot}%{_bindir}/zoom-v4l2convert
 install -Dpm644 %{S:2} %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/Zoom.png
 install -Dpm644 %{S:3} %{buildroot}%{_datadir}/mime/packages/zoom.xml
 
@@ -109,12 +113,17 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 
 %files
 %{_bindir}/zoom
+%{_bindir}/zoom-v4l2convert
 %{_datadir}/applications/Zoom.desktop
+%{_datadir}/applications/Zoom-v4l2convert.desktop
 %{_datadir}/icons/hicolor/256x256/apps/Zoom.png
 %{_datadir}/mime/packages/zoom.xml
 %{_libdir}/zoom
 
 %changelog
+* Sun Nov 01 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53350.1027-2
+- add zoom launcher wrapped with v4l2convert.so library to fix some webcams
+
 * Wed Oct 28 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53350.1027-1
 - update to 5.4.53350.1027
 - update bundled Qt5 version declaration
