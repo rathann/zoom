@@ -1,12 +1,13 @@
 %define _enable_debug_packages %{nil}
 %define debug_package          %{nil}
+%global _build_id_links alldebug
 %bcond_without bundled_qt5
 %global bundled_qt_version 5.12.9
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
 Version: 5.4.53350.1027
-Release: 2
+Release: 3
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
 Source1: Zoom.desktop
@@ -121,6 +122,9 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Thu Nov 05 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53350.1027-3
+- work around build-id links conflicts with zoomvmwareplugin
+
 * Sun Nov 01 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53350.1027-2
 - add zoom launcher wrapped with v4l2convert.so library to fix some webcams
 
