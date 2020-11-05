@@ -7,7 +7,7 @@
 Summary: Video and Web Conferencing Service Client
 Name: zoom
 Version: 5.4.53350.1027
-Release: 3
+Release: 4
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
 Source1: Zoom.desktop
@@ -23,7 +23,7 @@ BuildRequires: desktop-file-utils
 Requires: ca-certificates
 Requires: hicolor-icon-theme
 Requires: libmpg123.so.0()(64bit)
-Requires: libquazip.so.1()(64bit)
+Requires: libquazip5.so.1()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
 Provides: bundled(libicu) = 56.1
 %if %{with bundled_qt5}
@@ -107,7 +107,7 @@ install -Dpm644 %{S:3} %{buildroot}%{_datadir}/mime/packages/zoom.xml
 
 ln -s ../%{_lib}/zoom/ZoomLauncher %{buildroot}%{_bindir}/zoom
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
-ln -s ../libquazip.so.1 %{buildroot}%{_libdir}/zoom/libquazip.so
+ln -s ../libquazip5.so.1 %{buildroot}%{_libdir}/zoom/libquazip.so
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcacert.pem
@@ -122,6 +122,9 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Fri Nov 06 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53350.1027-4
+- use quazip-qt5 instead of quazip (qt4)
+
 * Thu Nov 05 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53350.1027-3
 - work around build-id links conflicts with zoomvmwareplugin
 
