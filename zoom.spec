@@ -6,8 +6,8 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.4.53350.1027
-Release: 4
+Version: 5.4.53391.1108
+Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
 Source1: Zoom.desktop
@@ -122,6 +122,9 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Thu Nov 12 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53391.1108-1
+- update to 5.4.53391.1108
+
 * Fri Nov 06 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53350.1027-4
 - use quazip-qt5 instead of quazip (qt4)
 
