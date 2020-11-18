@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.4.53391.1108
+Version: 5.4.54779.1115
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -20,10 +20,8 @@ ExclusiveArch: x86_64
 BuildRequires: chrpath
 BuildRequires: crudini
 BuildRequires: desktop-file-utils
-Requires: ca-certificates
 Requires: hicolor-icon-theme
 Requires: libmpg123.so.0()(64bit)
-Requires: libquazip5.so.1()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
 Provides: bundled(libicu) = 56.1
 %if %{with bundled_qt5}
@@ -39,6 +37,7 @@ Provides: bundled(qt5-qtsvg) = %{bundled_qt_version}
 Provides: bundled(qt5-qtwayland) = %{bundled_qt_version}
 Provides: bundled(qt5-qtx11extras) = %{bundled_qt_version}
 Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
+Provides: bundled(quazip-qt5)
 
 # Qt5 cannot be unbundled as the application uses private APIs
 %global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5.*$
@@ -57,7 +56,6 @@ Mac, Linux, iOS, Android, and H.323/SIP room systems.
 %setup -q -n zoom
 chmod -x \
   *.pcm \
-  *.pem \
   sip/*.wav \
   Qt*/{qmldir,*.qml} \
   timezones/*/timezones.txt \
@@ -65,6 +63,7 @@ chmod -x \
 for f in \
   zo{om,pen} \
   libicu{data,i18n,uc}.so.56.1 \
+  libquazip.so \
 ; do chrpath -d $f ; done
 rm -r \
 %if ! %{with bundled_qt5}
@@ -74,6 +73,7 @@ rm -r \
   iconengines \
   imageformats \
   libQt5* \
+  libquazip.so \
   platforminputcontexts \
   platforms \
   platformthemes \
@@ -82,14 +82,12 @@ rm -r \
   xcbglintegrations \
 %endif
   libmpg123.so \
-  libquazip.so* \
   libturbojpeg.so* \
   getbssid.sh \
   wayland-decoration-client \
   wayland-graphics-integration-client \
   wayland-graphics-integration-server \
   wayland-shell-integration \
-  zcacert.pem \
 
 crudini --set qt.conf Paths Prefix %{_libdir}/zoom
 
@@ -107,10 +105,8 @@ install -Dpm644 %{S:3} %{buildroot}%{_datadir}/mime/packages/zoom.xml
 
 ln -s ../%{_lib}/zoom/ZoomLauncher %{buildroot}%{_bindir}/zoom
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
-ln -s ../libquazip5.so.1 %{buildroot}%{_libdir}/zoom/libquazip.so
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
-ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcacert.pem
 
 %files
 %{_bindir}/zoom
@@ -122,6 +118,11 @@ ln -s ../../../etc/pki/tls/certs/ca-bundle.crt %{buildroot}%{_libdir}/zoom/zcace
 %{_libdir}/zoom
 
 %changelog
+* Wed Nov 18 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.54779.1115-1
+- update to 5.4.54779.1115
+- switch to bundled quazip to avoid two Qt5 clash with system version
+- certificates seem to be built into the binary now
+
 * Thu Nov 12 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.53391.1108-1
 - update to 5.4.53391.1108
 
