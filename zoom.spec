@@ -37,7 +37,7 @@ Provides: bundled(qt5-qtsvg) = %{bundled_qt_version}
 Provides: bundled(qt5-qtwayland) = %{bundled_qt_version}
 Provides: bundled(qt5-qtx11extras) = %{bundled_qt_version}
 Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
-Provides: bundled(quazip-qt5)
+Provides: bundled(quazip-qt5) = 0.9.1
 
 # Qt5 cannot be unbundled as the application uses private APIs
 %global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5.*$
