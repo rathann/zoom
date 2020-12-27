@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.4.56259.1207
+Version: 5.4.57450.1220
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -20,6 +20,7 @@ ExclusiveArch: x86_64
 BuildRequires: chrpath
 BuildRequires: crudini
 BuildRequires: desktop-file-utils
+Requires: fdk-aac%{_isa}
 Requires: hicolor-icon-theme
 Requires: libmpg123.so.0()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
@@ -81,6 +82,7 @@ rm -r \
   qt.conf \
   xcbglintegrations \
 %endif
+  libfdkaac2.so \
   libmpg123.so \
   libturbojpeg.so* \
   getbssid.sh \
@@ -104,6 +106,7 @@ install -Dpm644 %{S:2} %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/Zoom.p
 install -Dpm644 %{S:3} %{buildroot}%{_datadir}/mime/packages/zoom.xml
 
 ln -s ../%{_lib}/zoom/ZoomLauncher %{buildroot}%{_bindir}/zoom
+ln -s ../fdk-aac/libfdk-aac.so.2 %{buildroot}%{_libdir}/zoom/libfdkaac2.so
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
@@ -118,6 +121,10 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Sun Dec 27 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.57450.1220-1
+- update to 5.4.57450.1220
+- unbundle fdk-aac
+
 * Wed Dec 09 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.56259.1207-1
 - update to 5.4.56259.1207
 
