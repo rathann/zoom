@@ -2,11 +2,11 @@
 %define debug_package          %{nil}
 %global _build_id_links alldebug
 %bcond_without bundled_qt5
-%global bundled_qt_version 5.12.9
+%global bundled_qt_version 5.12.10
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.4.57450.1220
+Version: 5.4.57862.0110
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -121,6 +121,9 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Mon Jan 11 2021 Dominik Mierzejewski <rpm@greysector.net> 5.4.57862.0110-1
+- update to 5.4.57862.0110
+
 * Sun Dec 27 2020 Dominik Mierzejewski <rpm@greysector.net> 5.4.57450.1220-1
 - update to 5.4.57450.1220
 - unbundle fdk-aac
