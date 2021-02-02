@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.4.57862.0110
+Version: 5.5.6955.0131
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -121,6 +121,9 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Tue Feb 02 2021 Dominik Mierzejewski <rpm@greysector.net> 5.5.6955.0131-1
+- update to 5.5.6955.0131
+
 * Mon Jan 11 2021 Dominik Mierzejewski <rpm@greysector.net> 5.4.57862.0110-1
 - update to 5.4.57862.0110
 
