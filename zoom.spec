@@ -25,6 +25,7 @@ Requires: hicolor-icon-theme
 Requires: libmpg123.so.0()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
 Provides: bundled(libicu) = 56.1
+Provides: bundled(openvino)
 %if %{with bundled_qt5}
 Provides: bundled(qt5-qtbase) = %{bundled_qt_version}
 Provides: bundled(qt5-qtbase-gui) = %{bundled_qt_version}
@@ -61,6 +62,10 @@ chmod -x \
   Qt*/{qmldir,*.qml} \
   timezones/*/timezones.txt \
 
+chmod +x \
+  libclDNN64.so \
+  libmkldnn.so \
+
 for f in \
   zo{om,pen} \
   libicu{data,i18n,uc}.so.56.1 \
@@ -84,6 +89,7 @@ rm -r \
 %endif
   libfdkaac2.so \
   libmpg123.so \
+  libOpenCL.so.1 \
   libturbojpeg.so* \
   getbssid.sh \
   wayland-decoration-client \
@@ -123,6 +129,7 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %changelog
 * Tue Sep 07 2021 Dominik Mierzejewski <rpm@greysector.net> - 5.7.31792.0820-1
 - update to 5.7.31792.0820
+- unbundle OpenCL
 
 * Tue Aug 17 2021 Dominik Mierzejewski <rpm@greysector.net> - 5.7.29123.0808-1
 - update to 5.7.29123.0808
