@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.8.3.145
+Version: 5.8.4.210
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -87,11 +87,9 @@ rm -r \
   qt.conf \
   xcbglintegrations \
 %endif
-  libfaac1.so \
   libfdkaac2.so \
   libmpg123.so \
   libOpenCL.so.1 \
-  libquazip.so.1.0.0 \
   libturbojpeg.so* \
   getbssid.sh \
   wayland-decoration-client \
@@ -129,6 +127,9 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Tue Nov 16 2021 Dominik Mierzejewski <rpm@greysector.net> - 5.8.4.210-1
+- update to 5.8.4.210
+
 * Mon Nov 01 2021 Dominik Mierzejewski <rpm@greysector.net> - 5.8.3.145-1
 - update to 5.8.3.145
 
