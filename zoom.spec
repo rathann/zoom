@@ -6,8 +6,8 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.9.0.1273
-Release: 1%{?dist}
+Version: 5.9.1.1380
+Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
 Source1: Zoom.desktop
@@ -65,6 +65,7 @@ chmod -x \
 chmod +x \
   libclDNN64.so \
   libmkldnn.so \
+  libquazip.so \
 
 for f in \
   zo{om,pen} \
@@ -127,6 +128,9 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Sat Jan 15 2022 Dominik Mierzejewski <rpm@greysector.net> - 5.9.1.1380-1
+- update to 5.9.1.1380
+
 * Wed Dec 22 2021 Dominik Mierzejewski <rpm@greysector.net> - 5.9.0.1273-1
 - update to 5.9.0.1273
 
