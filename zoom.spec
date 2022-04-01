@@ -7,7 +7,7 @@
 Summary: Video and Web Conferencing Service Client
 Name: zoom
 Version: 5.10.0.2450
-Release: 1
+Release: 2
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
 Source1: Zoom.desktop
@@ -24,6 +24,7 @@ Requires: fdk-aac%{_isa}
 Requires: hicolor-icon-theme
 Requires: libmpg123.so.0()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
+Provides: bundled(nodejs-electron) = 92.0.4515.131
 Provides: bundled(libicu) = 56.1
 Provides: bundled(openvino)
 %if %{with bundled_qt5}
@@ -42,7 +43,7 @@ Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
 Provides: bundled(quazip-qt5) = 0.9.1
 
 # Qt5 cannot be unbundled as the application uses private APIs
-%global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5.*$
+%global __requires_exclude ^lib\(cef\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5\).*$
 %else
 %global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\)
 %endif
@@ -128,6 +129,9 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Fri Apr 01 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.10.0.2450-2
+- filter-out bundled libcef.so Requires:
+
 * Thu Mar 31 2022 Dominik Mierzejewski <rpm@greysector.net> - 5.10.0.2450-1
 - update to 5.10.0.2450
 
