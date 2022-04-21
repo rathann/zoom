@@ -6,8 +6,8 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.10.0.2450
-Release: 2
+Version: 5.10.3.2778
+Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
 Source1: Zoom.desktop
@@ -129,6 +129,9 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom
 
 %changelog
+* Thu Apr 21 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.10.3.2778-1
+- update to 5.10.3.2778
+
 * Fri Apr 01 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.10.0.2450-2
 - filter-out bundled libcef.so Requires:
 
