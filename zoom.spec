@@ -1,7 +1,7 @@
 %define _enable_debug_packages %{nil}
 %define debug_package          %{nil}
 %global _build_id_links alldebug
-%bcond_without bundled_qt5
+%bcond_with bundled_qt5
 %global bundled_qt_version 5.12.10
 
 Summary: Video and Web Conferencing Service Client
@@ -45,7 +45,7 @@ Provides: bundled(quazip-qt5) = 0.9.1
 # Qt5 cannot be unbundled as the application uses private APIs
 %global __requires_exclude ^lib\(cef\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5\).*$
 %else
-%global __requires_exclude ^lib\(icu\(data\|i18n\|uc\)\)
+%global __requires_exclude ^lib\(cef\\.so\|icu\(data\|i18n\|uc\)\)
 %endif
 %global __provides_exclude_from ^%{_libdir}/zoom
 
@@ -76,6 +76,7 @@ for f in \
 rm -r \
 %if ! %{with bundled_qt5}
   audio \
+  bearer \
   egldeviceintegrations \
   generic \
   iconengines \
@@ -99,7 +100,9 @@ rm -r \
   wayland-graphics-integration-server \
   wayland-shell-integration \
 
+%if %{with bundled_qt5}
 crudini --set qt.conf Paths Prefix %{_libdir}/zoom
+%endif
 
 %build
 
@@ -131,6 +134,7 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %changelog
 * Thu Aug 25 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.11.9.4300-1
 - update to 5.11.9.4300
+- fix building without bundled Qt5
 
 * Tue Jul 05 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.11.1.3595-1
 - update to 5.11.1.3595
