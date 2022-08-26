@@ -129,12 +129,54 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_datadir}/applications/Zoom-v4l2convert.desktop
 %{_datadir}/icons/hicolor/256x256/apps/Zoom.png
 %{_datadir}/mime/packages/zoom.xml
-%{_libdir}/zoom
+%dir %{_libdir}/zoom
+%{_libdir}/zoom/aomhost
+%dir %{_libdir}/zoom/cef
+%attr(4755,root,root) %{_libdir}/zoom/cef/chrome-sandbox
+%{_libdir}/zoom/cef/chrome_*_percent.pak
+%{_libdir}/zoom/cef/icudtl.dat
+%{_libdir}/zoom/cef/libcef.so
+%{_libdir}/zoom/cef/libEGL.so
+%{_libdir}/zoom/cef/libGLESv2.so
+%{_libdir}/zoom/cef/locales
+%{_libdir}/zoom/cef/resources.pak
+%{_libdir}/zoom/cef/snapshot_blob.bin
+%{_libdir}/zoom/cef/swiftshader
+%{_libdir}/zoom/cef/v8_context_snapshot.bin
+%{_libdir}/zoom/Embedded.properties
+%{_libdir}/zoom/getbssid.sh
+%{_libdir}/zoom/json
+%{_libdir}/zoom/libaomagent.so
+%{_libdir}/zoom/libclDNN64.so
+%{_libdir}/zoom/libfdkaac2.so
+%{_libdir}/zoom/libicudata.so
+%{_libdir}/zoom/libicudata.so.56
+%{_libdir}/zoom/libicudata.so.56.1
+%{_libdir}/zoom/libicui18n.so
+%{_libdir}/zoom/libicui18n.so.56
+%{_libdir}/zoom/libicui18n.so.56.1
+%{_libdir}/zoom/libicuuc.so
+%{_libdir}/zoom/libicuuc.so.56
+%{_libdir}/zoom/libicuuc.so.56.1
+%{_libdir}/zoom/libmkldnn.so
+%{_libdir}/zoom/libmpg123.so
+%{_libdir}/zoom/libturbojpeg.so
+%{_libdir}/zoom/ringtone
+%{_libdir}/zoom/scheduler
+%{_libdir}/zoom/sip
+%{_libdir}/zoom/timezones
+%{_libdir}/zoom/translations
+%{_libdir}/zoom/version.txt
+%{_libdir}/zoom/zoom
+%{_libdir}/zoom/ZoomLauncher
+%{_libdir}/zoom/zopen
+%{_libdir}/zoom/*.pcm
 
 %changelog
 * Thu Aug 25 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.11.9.4300-1
 - update to 5.11.9.4300
 - fix building without bundled Qt5
+- mark chrome-sandbox as setuid
 
 * Tue Jul 05 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.11.1.3595-1
 - update to 5.11.1.3595
