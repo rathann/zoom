@@ -1,7 +1,7 @@
 %define _enable_debug_packages %{nil}
 %define debug_package          %{nil}
 %global _build_id_links alldebug
-%bcond_with bundled_qt5
+%bcond_without bundled_qt5
 %global bundled_qt_version 5.12.10
 
 Summary: Video and Web Conferencing Service Client
@@ -42,7 +42,7 @@ Provides: bundled(qt5-qtx11extras) = %{bundled_qt_version}
 Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
 Provides: bundled(quazip-qt5) = 0.9.1
 
-# Qt5 cannot be unbundled as the application uses private APIs
+# Qt5 cannot be unbundled as the application doesn't work with Fedora Qt5
 %global __requires_exclude ^lib\(cef\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5\).*$
 %else
 %global __requires_exclude ^lib\(cef\\.so\|icu\(data\|i18n\|uc\)\)
@@ -171,6 +171,43 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom/ZoomLauncher
 %{_libdir}/zoom/zopen
 %{_libdir}/zoom/*.pcm
+%if %{with bundled_qt5}
+%{_libdir}/zoom/Qt
+%{_libdir}/zoom/QtGraphicalEffects
+%{_libdir}/zoom/QtQml
+%{_libdir}/zoom/QtQuick.2
+%{_libdir}/zoom/QtQuick
+%{_libdir}/zoom/QtWayland
+%{_libdir}/zoom/audio
+%{_libdir}/zoom/bearer
+%{_libdir}/zoom/egldeviceintegrations
+%{_libdir}/zoom/generic
+%{_libdir}/zoom/iconengines
+%{_libdir}/zoom/imageformats
+%{_libdir}/zoom/libQt5Core.so*
+%{_libdir}/zoom/libQt5DBus.so*
+%{_libdir}/zoom/libQt5Gui.so*
+%{_libdir}/zoom/libQt5Network.so*
+%{_libdir}/zoom/libQt5OpenGL.so*
+%{_libdir}/zoom/libQt5Qml.so*
+%{_libdir}/zoom/libQt5Quick.so*
+%{_libdir}/zoom/libQt5QuickControls2.so*
+%{_libdir}/zoom/libQt5QuickShapes.so*
+%{_libdir}/zoom/libQt5QuickTemplates2.so*
+%{_libdir}/zoom/libQt5QuickWidgets.so*
+%{_libdir}/zoom/libQt5Svg.so*
+%{_libdir}/zoom/libQt5WaylandClient.so*
+%{_libdir}/zoom/libQt5WaylandCompositor.so*
+%{_libdir}/zoom/libQt5Widgets.so*
+%{_libdir}/zoom/libQt5X11Extras.so*
+%{_libdir}/zoom/libQt5XcbQpa.so*
+%{_libdir}/zoom/libquazip.so
+%{_libdir}/zoom/platforminputcontexts
+%{_libdir}/zoom/platforms
+%{_libdir}/zoom/platformthemes
+%{_libdir}/zoom/qt.conf
+%{_libdir}/zoom/xcbglintegrations
+%endif
 
 %changelog
 * Thu Aug 25 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.11.9.4300-1
