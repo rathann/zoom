@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.11.9.4300
+Version: 5.11.10.4400
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -20,10 +20,13 @@ ExclusiveArch: x86_64
 BuildRequires: chrpath
 BuildRequires: crudini
 BuildRequires: desktop-file-utils
+Requires: %{_bindir}/pacmd
+Requires: %{_bindir}/pactl
 Requires: fdk-aac%{_isa}
 Requires: hicolor-icon-theme
 Requires: libmpg123.so.0()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
+Requires: procps-ng
 Provides: bundled(nodejs-electron) = 92.0.4515.131
 Provides: bundled(libicu) = 56.1
 Provides: bundled(openvino)
@@ -210,6 +213,10 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %endif
 
 %changelog
+* Thu Sep 08 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.11.10.4400-1
+- update to 5.11.10.4400
+- add missing dependencies
+
 * Thu Aug 25 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.11.9.4300-1
 - update to 5.11.9.4300
 - fix building without bundled Qt5
