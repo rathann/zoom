@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.12.2.4816
+Version: 5.12.6.173
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -26,6 +26,7 @@ Requires: fdk-aac%{_isa}
 Requires: hicolor-icon-theme
 Requires: libmpg123.so.0()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
+Requires: libvulkan.so.1()(64bit)
 Requires: procps-ng
 Provides: bundled(nodejs-electron) = 92.0.4515.131
 Provides: bundled(libicu) = 56.1
@@ -46,9 +47,9 @@ Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
 Provides: bundled(quazip-qt5) = 0.9.1
 
 # Qt5 cannot be unbundled as the application doesn't work with Fedora Qt5
-%global __requires_exclude ^lib\(cef\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5\).*$
+%global __requires_exclude ^lib\(\(cef\|ffmpeg\)\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5\).*$
 %else
-%global __requires_exclude ^lib\(cef\\.so\|icu\(data\|i18n\|uc\)\)
+%global __requires_exclude ^lib\(\(cef\|ffmpeg\)\\.so\|icu\(data\|i18n\|uc\)\)
 %endif
 %global __provides_exclude_from ^%{_libdir}/zoom
 
@@ -73,6 +74,7 @@ chmod +x \
 
 for f in \
   zo{om,pen} \
+  libdvf.so \
   libicu{data,i18n,uc}.so.56.1 \
   libquazip.so \
 ; do chrpath -d $f ; done
@@ -93,6 +95,7 @@ rm -r \
   qt.conf \
   xcbglintegrations \
 %endif
+  cef/libvulkan.so.1 \
   libfdkaac2.so \
   libmpg123.so \
   libOpenCL.so.1 \
@@ -124,6 +127,7 @@ ln -s ../fdk-aac/libfdk-aac.so.2 %{buildroot}%{_libdir}/zoom/libfdkaac2.so
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
+ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 
 %files
 %{_bindir}/zoom
@@ -140,7 +144,11 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom/cef/icudtl.dat
 %{_libdir}/zoom/cef/libcef.so
 %{_libdir}/zoom/cef/libEGL.so
+%{_libdir}/zoom/cef/libffmpeg.so
 %{_libdir}/zoom/cef/libGLESv2.so
+%{_libdir}/zoom/cef/libVkICD_mock_icd.so
+%{_libdir}/zoom/cef/libvk_swiftshader.so
+%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/cef/locales
 %{_libdir}/zoom/cef/resources.pak
 %{_libdir}/zoom/cef/snapshot_blob.bin
@@ -151,6 +159,7 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom/json
 %{_libdir}/zoom/libaomagent.so
 %{_libdir}/zoom/libclDNN64.so
+%{_libdir}/zoom/libdvf.so
 %{_libdir}/zoom/libfdkaac2.so
 %{_libdir}/zoom/libicudata.so
 %{_libdir}/zoom/libicudata.so.56
@@ -213,6 +222,10 @@ ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 %endif
 
 %changelog
+* Thu Nov 17 2022 Dominik Mierzejewski <rpm@greysector.net> - 5.12.6.173-1
+- update to 5.12.6.173
+- unbundle libvulkan
+
 * Fri Oct 14 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.12.2.4816-1
 - update to 5.12.2.4816
 
