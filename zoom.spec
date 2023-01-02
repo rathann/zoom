@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.12.9.367
+Version: 5.13.3.651
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -138,6 +138,7 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_datadir}/mime/packages/zoom.xml
 %dir %{_libdir}/zoom
 %{_libdir}/zoom/aomhost
+%{_libdir}/zoom/calendar
 %dir %{_libdir}/zoom/cef
 %attr(4755,root,root) %{_libdir}/zoom/cef/chrome-sandbox
 %{_libdir}/zoom/cef/chrome_*_percent.pak
@@ -154,6 +155,7 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/cef/snapshot_blob.bin
 %{_libdir}/zoom/cef/swiftshader
 %{_libdir}/zoom/cef/v8_context_snapshot.bin
+%{_libdir}/zoom/email
 %{_libdir}/zoom/Embedded.properties
 %{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom/json
@@ -222,6 +224,9 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %endif
 
 %changelog
+* Mon Jan 02 2023 Dominik Mierzejewski <dominik@greysector.net> - 5.13.3.651-1
+- update to 5.13.3.651
+
 * Mon Nov 28 2022 Dominik Mierzejewski <dominik@greysector.net> - 5.12.9.367-1
 - update to 5.12.9.367
 
