@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.13.3.651
+Version: 5.13.7.683
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -24,7 +24,12 @@ Requires: %{_bindir}/pacmd
 Requires: %{_bindir}/pactl
 Requires: fdk-aac%{_isa}
 Requires: hicolor-icon-theme
+Requires: libavcodec.so.58()(64bit)
+Requires: libavformat.so.58()(64bit)
+Requires: libavutil.so.56()(64bit)
 Requires: libmpg123.so.0()(64bit)
+Requires: libsqlite3.so.0()(64bit)
+Requires: libswresample.so.3()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
 Requires: libvulkan.so.1()(64bit)
 Requires: procps-ng
@@ -47,7 +52,7 @@ Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
 Provides: bundled(quazip-qt5) = 0.9.1
 
 # Qt5 cannot be unbundled as the application doesn't work with Fedora Qt5
-%global __requires_exclude ^lib\(\(cef\|ffmpeg\)\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5\).*$
+%global __requires_exclude ^lib\(\(cef\|ffmpeg\)\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Bodymovin\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|QmlModels\|QmlWorkerScript\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5\).*$
 %else
 %global __requires_exclude ^lib\(\(cef\|ffmpeg\)\\.so\|icu\(data\|i18n\|uc\)\)
 %endif
@@ -61,10 +66,10 @@ Mac, Linux, iOS, Android, and H.323/SIP room systems.
 
 %prep
 %setup -q -n zoom
+find Qt/qml -type f -name qmldir -o -name *.qml | xargs chmod -x
 chmod -x \
   *.pcm \
   sip/*.wav \
-  Qt*/{qmldir,*.qml} \
   timezones/*/timezones.txt \
 
 chmod +x \
@@ -75,39 +80,29 @@ chmod +x \
 for f in \
   zo{om,pen} \
   libdvf.so \
-  libicu{data,i18n,uc}.so.56.1 \
+  Qt/lib/libicu{data,i18n,uc}.so.56 \
   libquazip.so \
 ; do chrpath -d $f ; done
 rm -r \
 %if ! %{with bundled_qt5}
-  audio \
-  bearer \
-  egldeviceintegrations \
-  generic \
-  iconengines \
-  imageformats \
-  libQt5* \
+  Qt \
   libquazip.so \
-  platforminputcontexts \
-  platforms \
-  platformthemes \
-  Qt{,GraphicalEffects,Qml,Quick{,.2},Wayland} \
   qt.conf \
-  xcbglintegrations \
 %endif
+  cef/libsqlite3.so.0 \
   cef/libvulkan.so.1 \
+  libavcodec.so.58 \
+  libavformat.so.58 \
+  libavutil.so.56 \
   libfdkaac2.so \
   libmpg123.so \
   libOpenCL.so.1 \
+  libswresample.so.3 \
   libturbojpeg.so* \
   getbssid.sh \
-  wayland-decoration-client \
-  wayland-graphics-integration-client \
-  wayland-graphics-integration-server \
-  wayland-shell-integration \
 
 %if %{with bundled_qt5}
-crudini --set qt.conf Paths Prefix %{_libdir}/zoom
+crudini --set qt.conf Paths Prefix %{_libdir}/zoom/Qt
 %endif
 
 %build
@@ -124,9 +119,14 @@ install -Dpm644 %{S:3} %{buildroot}%{_datadir}/mime/packages/zoom.xml
 
 ln -s ../%{_lib}/zoom/ZoomLauncher %{buildroot}%{_bindir}/zoom
 ln -s ../fdk-aac/libfdk-aac.so.2 %{buildroot}%{_libdir}/zoom/libfdkaac2.so
+ln -s ../libavcodec.so.58 %{buildroot}%{_libdir}/zoom/libavcodec.so.58
+ln -s ../libavformat.so.58 %{buildroot}%{_libdir}/zoom/libavformat.so.58
+ln -s ../libavutil.so.56 %{buildroot}%{_libdir}/zoom/libavutil.so.56
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
+ln -s ../libswresample.so.3 %{buildroot}%{_libdir}/zoom/libswresample.so.3
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
+ln -s ../../libsqlite3.so.0 %{buildroot}%{_libdir}/zoom/cef/libsqlite3.so.0
 ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 
 %files
@@ -148,30 +148,27 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/cef/libffmpeg.so
 %{_libdir}/zoom/cef/libGLESv2.so
 %{_libdir}/zoom/cef/libVkICD_mock_icd.so
+%{_libdir}/zoom/cef/libVkLayer_khronos_validation.so
 %{_libdir}/zoom/cef/libvk_swiftshader.so
+%{_libdir}/zoom/cef/libsqlite3.so.0
 %{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/cef/locales
 %{_libdir}/zoom/cef/resources.pak
 %{_libdir}/zoom/cef/snapshot_blob.bin
-%{_libdir}/zoom/cef/swiftshader
 %{_libdir}/zoom/cef/v8_context_snapshot.bin
+%{_libdir}/zoom/cef/vk_swiftshader_icd.json
 %{_libdir}/zoom/email
 %{_libdir}/zoom/Embedded.properties
 %{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom/json
 %{_libdir}/zoom/libaomagent.so
+%{_libdir}/zoom/libavcodec.so.58
+%{_libdir}/zoom/libavformat.so.58
+%{_libdir}/zoom/libavutil.so.56
+%{_libdir}/zoom/libswresample.so.3
 %{_libdir}/zoom/libclDNN64.so
 %{_libdir}/zoom/libdvf.so
 %{_libdir}/zoom/libfdkaac2.so
-%{_libdir}/zoom/libicudata.so
-%{_libdir}/zoom/libicudata.so.56
-%{_libdir}/zoom/libicudata.so.56.1
-%{_libdir}/zoom/libicui18n.so
-%{_libdir}/zoom/libicui18n.so.56
-%{_libdir}/zoom/libicui18n.so.56.1
-%{_libdir}/zoom/libicuuc.so
-%{_libdir}/zoom/libicuuc.so.56
-%{_libdir}/zoom/libicuuc.so.56.1
 %{_libdir}/zoom/libmkldnn.so
 %{_libdir}/zoom/libmpg123.so
 %{_libdir}/zoom/libturbojpeg.so
@@ -187,43 +184,15 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/*.pcm
 %if %{with bundled_qt5}
 %{_libdir}/zoom/Qt
-%{_libdir}/zoom/QtGraphicalEffects
-%{_libdir}/zoom/QtQml
-%{_libdir}/zoom/QtQuick.2
-%{_libdir}/zoom/QtQuick
-%{_libdir}/zoom/QtWayland
-%{_libdir}/zoom/audio
-%{_libdir}/zoom/bearer
-%{_libdir}/zoom/egldeviceintegrations
-%{_libdir}/zoom/generic
-%{_libdir}/zoom/iconengines
-%{_libdir}/zoom/imageformats
-%{_libdir}/zoom/libQt5Core.so*
-%{_libdir}/zoom/libQt5DBus.so*
-%{_libdir}/zoom/libQt5Gui.so*
-%{_libdir}/zoom/libQt5Network.so*
-%{_libdir}/zoom/libQt5OpenGL.so*
-%{_libdir}/zoom/libQt5Qml.so*
-%{_libdir}/zoom/libQt5Quick.so*
-%{_libdir}/zoom/libQt5QuickControls2.so*
-%{_libdir}/zoom/libQt5QuickShapes.so*
-%{_libdir}/zoom/libQt5QuickTemplates2.so*
-%{_libdir}/zoom/libQt5QuickWidgets.so*
-%{_libdir}/zoom/libQt5Svg.so*
-%{_libdir}/zoom/libQt5WaylandClient.so*
-%{_libdir}/zoom/libQt5WaylandCompositor.so*
-%{_libdir}/zoom/libQt5Widgets.so*
-%{_libdir}/zoom/libQt5X11Extras.so*
-%{_libdir}/zoom/libQt5XcbQpa.so*
 %{_libdir}/zoom/libquazip.so
-%{_libdir}/zoom/platforminputcontexts
-%{_libdir}/zoom/platforms
-%{_libdir}/zoom/platformthemes
 %{_libdir}/zoom/qt.conf
-%{_libdir}/zoom/xcbglintegrations
 %endif
 
 %changelog
+* Wed Feb 15 2023 Dominik Mierzejewski <rpm@greysector.net> - 5.13.7.683-1
+- update to 5.13.7.683
+- unbundle sqlite3 and ffmpeg-libs
+
 * Mon Jan 02 2023 Dominik Mierzejewski <dominik@greysector.net> - 5.13.3.651-1
 - update to 5.13.3.651
 
