@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.13.7.683
+Version: 5.14.0.1720
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -189,6 +189,9 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %endif
 
 %changelog
+* Fri Mar 24 2023 Dominik Mierzejewski <rpm@greysector.net> - 5.14.0.1720-1
+- update to 5.14.0.1720
+
 * Wed Feb 15 2023 Dominik Mierzejewski <rpm@greysector.net> - 5.13.7.683-1
 - update to 5.13.7.683
 - unbundle sqlite3 and ffmpeg-libs
