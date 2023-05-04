@@ -2,11 +2,11 @@
 %define debug_package          %{nil}
 %global _build_id_links alldebug
 %bcond_without bundled_qt5
-%global bundled_qt_version 5.12.10
+%global bundled_qt_version 5.15.11
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.14.0.1720
+Version: 5.14.5.2430
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -33,7 +33,7 @@ Requires: libswresample.so.3()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
 Requires: libvulkan.so.1()(64bit)
 Requires: procps-ng
-Provides: bundled(nodejs-electron) = 92.0.4515.131
+Provides: bundled(nodejs-electron) = 105.0.5195.54
 Provides: bundled(libicu) = 56.1
 Provides: bundled(openvino)
 %if %{with bundled_qt5}
@@ -189,6 +189,10 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %endif
 
 %changelog
+* Thu May 04 2023 Dominik Mierzejewski <dominik@greysector.net> - 5.14.5.2430-1
+- update to 5.14.5.2430
+- update bundled components versions
+
 * Fri Mar 24 2023 Dominik Mierzejewski <rpm@greysector.net> - 5.14.0.1720-1
 - update to 5.14.0.1720
 
