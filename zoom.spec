@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.14.5.2430
+Version: 5.16.2.8828
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -24,16 +24,16 @@ Requires: %{_bindir}/pacmd
 Requires: %{_bindir}/pactl
 Requires: fdk-aac%{_isa}
 Requires: hicolor-icon-theme
-Requires: libavcodec.so.58()(64bit)
-Requires: libavformat.so.58()(64bit)
-Requires: libavutil.so.56()(64bit)
 Requires: libmpg123.so.0()(64bit)
 Requires: libsqlite3.so.0()(64bit)
-Requires: libswresample.so.3()(64bit)
+Requires: libswresample.so.4()(64bit)
 Requires: libturbojpeg.so.0()(64bit)
 Requires: libvulkan.so.1()(64bit)
 Requires: procps-ng
-Provides: bundled(nodejs-electron) = 105.0.5195.54
+Provides: bundled(cef) = 105.0.5195.54
+Provides: bundled(libavcodec) = 5.1.3
+Provides: bundled(libavformat) = 5.1.3
+Provides: bundled(libavutil) = 5.1.3
 Provides: bundled(libicu) = 56.1
 Provides: bundled(openvino)
 %if %{with bundled_qt5}
@@ -52,9 +52,9 @@ Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
 Provides: bundled(quazip-qt5) = 0.9.1
 
 # Qt5 cannot be unbundled as the application doesn't work with Fedora Qt5
-%global __requires_exclude ^lib\(\(cef\|ffmpeg\)\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Bodymovin\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|QmlModels\|QmlWorkerScript\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|XmlPatterns\)\)\\.so\\.5\).*$
+%global __requires_exclude ^lib\(\(avcodec\|avformat\|avutil\)\|\(cef\|ffmpeg\)\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Bodymovin\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|QmlModels\|QmlWorkerScript\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|Xml\|XmlPatterns\)\)\\.so\\.5\).*$
 %else
-%global __requires_exclude ^lib\(\(cef\|ffmpeg\)\\.so\|icu\(data\|i18n\|uc\)\)
+%global __requires_exclude ^lib\(\(avcodec\|avformat\|avutil\)\|\(cef\|ffmpeg\)\\.so\|icu\(data\|i18n\|uc\)\)
 %endif
 %global __provides_exclude_from ^%{_libdir}/zoom
 
@@ -78,6 +78,7 @@ chmod +x \
   libquazip.so \
 
 for f in \
+  aomhost \
   zo{om,pen} \
   libdvf.so \
   Qt/lib/libicu{data,i18n,uc}.so.56 \
@@ -91,13 +92,10 @@ rm -r \
 %endif
   cef/libsqlite3.so.0 \
   cef/libvulkan.so.1 \
-  libavcodec.so.58 \
-  libavformat.so.58 \
-  libavutil.so.56 \
   libfdkaac2.so \
   libmpg123.so \
   libOpenCL.so.1 \
-  libswresample.so.3 \
+  libswresample.so.4 \
   libturbojpeg.so* \
   getbssid.sh \
 
@@ -119,11 +117,8 @@ install -Dpm644 %{S:3} %{buildroot}%{_datadir}/mime/packages/zoom.xml
 
 ln -s ../%{_lib}/zoom/ZoomLauncher %{buildroot}%{_bindir}/zoom
 ln -s ../fdk-aac/libfdk-aac.so.2 %{buildroot}%{_libdir}/zoom/libfdkaac2.so
-ln -s ../libavcodec.so.58 %{buildroot}%{_libdir}/zoom/libavcodec.so.58
-ln -s ../libavformat.so.58 %{buildroot}%{_libdir}/zoom/libavformat.so.58
-ln -s ../libavutil.so.56 %{buildroot}%{_libdir}/zoom/libavutil.so.56
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
-ln -s ../libswresample.so.3 %{buildroot}%{_libdir}/zoom/libswresample.so.3
+ln -s ../libswresample.so.4 %{buildroot}%{_libdir}/zoom/libswresample.so.4
 ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 ln -s ../../libsqlite3.so.0 %{buildroot}%{_libdir}/zoom/cef/libsqlite3.so.0
@@ -162,10 +157,10 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/getbssid.sh
 %{_libdir}/zoom/json
 %{_libdir}/zoom/libaomagent.so
-%{_libdir}/zoom/libavcodec.so.58
-%{_libdir}/zoom/libavformat.so.58
-%{_libdir}/zoom/libavutil.so.56
-%{_libdir}/zoom/libswresample.so.3
+%{_libdir}/zoom/libavcodec.so.59
+%{_libdir}/zoom/libavformat.so.59
+%{_libdir}/zoom/libavutil.so.57
+%{_libdir}/zoom/libswresample.so.4
 %{_libdir}/zoom/libclDNN64.so
 %{_libdir}/zoom/libdvf.so
 %{_libdir}/zoom/libfdkaac2.so
@@ -189,6 +184,11 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %endif
 
 %changelog
+* Thu Oct 12 2023 Dominik Mierzejewski <dominik@greysector.net> - 5.16.2.8828-1
+- update to 5.16.2.8828
+- keep bundled libavcodec libavformat and libavutil from FFmpeg 5.1.3
+- update Requires: filter to include bundled libQt5Xml
+
 * Thu May 04 2023 Dominik Mierzejewski <dominik@greysector.net> - 5.14.5.2430-1
 - update to 5.14.5.2430
 - update bundled components versions
