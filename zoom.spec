@@ -2,11 +2,11 @@
 %define debug_package          %{nil}
 %global _build_id_links alldebug
 %bcond_without bundled_qt5
-%global bundled_qt_version 5.15.11
+%global bundled_qt_version 5.15.15
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.16.2.8828
+Version: 5.17.5.2543
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -22,19 +22,17 @@ BuildRequires: crudini
 BuildRequires: desktop-file-utils
 Requires: %{_bindir}/pacmd
 Requires: %{_bindir}/pactl
-Requires: fdk-aac%{_isa}
 Requires: hicolor-icon-theme
 Requires: libmpg123.so.0()(64bit)
 Requires: libsqlite3.so.0()(64bit)
-Requires: libswresample.so.4()(64bit)
-Requires: libturbojpeg.so.0()(64bit)
 Requires: libvulkan.so.1()(64bit)
 Requires: procps-ng
-Provides: bundled(cef) = 105.0.5195.54
+Provides: bundled(cef) = 120.0.6099.129
 Provides: bundled(libavcodec) = 5.1.3
 Provides: bundled(libavformat) = 5.1.3
 Provides: bundled(libavutil) = 5.1.3
 Provides: bundled(libicu) = 56.1
+Provides: bundled(libswresample) = 5.1.3
 Provides: bundled(openvino)
 %if %{with bundled_qt5}
 Provides: bundled(qt5-qtbase) = %{bundled_qt_version}
@@ -52,9 +50,9 @@ Provides: bundled(qt5-qtxmlpatterns) = %{bundled_qt_version}
 Provides: bundled(quazip-qt5) = 0.9.1
 
 # Qt5 cannot be unbundled as the application doesn't work with Fedora Qt5
-%global __requires_exclude ^lib\(\(avcodec\|avformat\|avutil\)\|\(cef\|ffmpeg\)\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Bodymovin\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|QmlModels\|QmlWorkerScript\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|Xml\|XmlPatterns\)\)\\.so\\.5\).*$
+%global __requires_exclude ^lib\(\(avcodec\|avformat\|avutil\|cef\|ffmpeg\|swresample\)\\.so\|\(icu\(data\|i18n\|uc\)\|Qt5\(3D\(Animation\|Core\|Input\|Logic\|Quick\(Scene2D\)\?\|Render\)\|Bodymovin\|Concurrent\|Core\|DBus\|Egl\(FSDeviceIntegration\|FsKmsSupport\)\|Gamepad\|Gui\|Location\|Multimedia\(Quick_p\|Widgets\)\?\|Network\|OpenGL\|Positioning\(Quick\)\?\|PrintSupport\|Qml\|QmlModels\|QmlWorkerScript\|Quick\(Controls2\|Particles\|Shapes\|Templates2\|Widgets\)\?\|RemoteObjects\|Sensors\|Script\|Sql\|Svg\|Wayland\(Client\|Compositor\)\|WebChannel\|WebEngine\(Core\|Widgets\)\?\|WebKit\(Widgets\)\?\|Widgets\|X11Extras\|XcbQpa\|Xml\|XmlPatterns\)\)\\.so\\.5\).*$
 %else
-%global __requires_exclude ^lib\(\(avcodec\|avformat\|avutil\)\|\(cef\|ffmpeg\)\\.so\|icu\(data\|i18n\|uc\)\)
+%global __requires_exclude ^lib\(\(avcodec\|avformat\|avutil\|cef\|ffmpeg\|swresample\)\\.so\|icu\(data\|i18n\|uc\)\)
 %endif
 %global __provides_exclude_from ^%{_libdir}/zoom
 
@@ -68,7 +66,7 @@ Mac, Linux, iOS, Android, and H.323/SIP room systems.
 %setup -q -n zoom
 find Qt/qml -type f -name qmldir -o -name *.qml | xargs chmod -x
 chmod -x \
-  *.pcm \
+  {,ringtone/}ring.pcm \
   sip/*.wav \
   timezones/*/timezones.txt \
 
@@ -92,11 +90,8 @@ rm -r \
 %endif
   cef/libsqlite3.so.0 \
   cef/libvulkan.so.1 \
-  libfdkaac2.so \
   libmpg123.so \
   libOpenCL.so.1 \
-  libswresample.so.4 \
-  libturbojpeg.so* \
   getbssid.sh \
 
 %if %{with bundled_qt5}
@@ -116,10 +111,7 @@ install -Dpm644 %{S:2} %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/Zoom.p
 install -Dpm644 %{S:3} %{buildroot}%{_datadir}/mime/packages/zoom.xml
 
 ln -s ../%{_lib}/zoom/ZoomLauncher %{buildroot}%{_bindir}/zoom
-ln -s ../fdk-aac/libfdk-aac.so.2 %{buildroot}%{_libdir}/zoom/libfdkaac2.so
 ln -s ../libmpg123.so.0 %{buildroot}%{_libdir}/zoom/libmpg123.so
-ln -s ../libswresample.so.4 %{buildroot}%{_libdir}/zoom/libswresample.so.4
-ln -s ../libturbojpeg.so.0 %{buildroot}%{_libdir}/zoom/libturbojpeg.so
 ln -s ../../bin/true %{buildroot}%{_libdir}/zoom/getbssid.sh
 ln -s ../../libsqlite3.so.0 %{buildroot}%{_libdir}/zoom/cef/libsqlite3.so.0
 ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
@@ -142,8 +134,6 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/cef/libEGL.so
 %{_libdir}/zoom/cef/libffmpeg.so
 %{_libdir}/zoom/cef/libGLESv2.so
-%{_libdir}/zoom/cef/libVkICD_mock_icd.so
-%{_libdir}/zoom/cef/libVkLayer_khronos_validation.so
 %{_libdir}/zoom/cef/libvk_swiftshader.so
 %{_libdir}/zoom/cef/libsqlite3.so.0
 %{_libdir}/zoom/cef/libvulkan.so.1
@@ -163,10 +153,8 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/libswresample.so.4
 %{_libdir}/zoom/libclDNN64.so
 %{_libdir}/zoom/libdvf.so
-%{_libdir}/zoom/libfdkaac2.so
 %{_libdir}/zoom/libmkldnn.so
 %{_libdir}/zoom/libmpg123.so
-%{_libdir}/zoom/libturbojpeg.so
 %{_libdir}/zoom/ringtone
 %{_libdir}/zoom/scheduler
 %{_libdir}/zoom/sip
@@ -184,6 +172,12 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %endif
 
 %changelog
+* Mon Jan 29 2024 Dominik Mierzejewski <dominik@greysector.net> - 5.17.5.2543-1
+- update to 5.17.5.2543
+- update bundled components versions
+- fdk-aac and turbojpeg are no longer as separate libraries
+- keep bundled libswresample from FFmpeg 5.1.3
+
 * Thu Oct 12 2023 Dominik Mierzejewski <dominik@greysector.net> - 5.16.2.8828-1
 - update to 5.16.2.8828
 - keep bundled libavcodec libavformat and libavutil from FFmpeg 5.1.3
