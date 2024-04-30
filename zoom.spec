@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 5.17.5.2543
+Version: 6.0.2.4680
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -142,6 +142,7 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/cef/snapshot_blob.bin
 %{_libdir}/zoom/cef/v8_context_snapshot.bin
 %{_libdir}/zoom/cef/vk_swiftshader_icd.json
+%{_libdir}/zoom/chatapp
 %{_libdir}/zoom/email
 %{_libdir}/zoom/Embedded.properties
 %{_libdir}/zoom/getbssid.sh
@@ -172,6 +173,9 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %endif
 
 %changelog
+* Tue Apr 30 2024 Dominik Mierzejewski <dominik@greysector.net> - 6.0.2.4680-1
+- update to 6.0.2.4680
+
 * Mon Jan 29 2024 Dominik Mierzejewski <dominik@greysector.net> - 5.17.5.2543-1
 - update to 5.17.5.2543
 - update bundled components versions
