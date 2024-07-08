@@ -2,11 +2,11 @@
 %define debug_package          %{nil}
 %global _build_id_links alldebug
 %bcond_without bundled_qt5
-%global bundled_qt_version 5.15.15
+%global bundled_qt_version 5.15.17
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 6.0.2.4680
+Version: 6.1.1.443
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -164,6 +164,7 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/version.txt
 %{_libdir}/zoom/zoom
 %{_libdir}/zoom/ZoomLauncher
+%{_libdir}/zoom/ZoomWebviewHost
 %{_libdir}/zoom/zopen
 %{_libdir}/zoom/*.pcm
 %if %{with bundled_qt5}
@@ -173,6 +174,9 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %endif
 
 %changelog
+* Mon Jul 08 2024 Dominik Mierzejewski <dominik@greysector.net> - 6.1.1.443-1
+- update to 6.1.1.443
+
 * Tue Apr 30 2024 Dominik Mierzejewski <dominik@greysector.net> - 6.0.2.4680-1
 - update to 6.0.2.4680
 
