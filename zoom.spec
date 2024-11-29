@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 6.1.1.443
+Version: 6.2.11.5069
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -27,7 +27,7 @@ Requires: libmpg123.so.0()(64bit)
 Requires: libsqlite3.so.0()(64bit)
 Requires: libvulkan.so.1()(64bit)
 Requires: procps-ng
-Provides: bundled(cef) = 120.0.6099.129
+Provides: bundled(cef) = 130.1.15
 Provides: bundled(libavcodec) = 5.1.3
 Provides: bundled(libavformat) = 5.1.3
 Provides: bundled(libavutil) = 5.1.3
@@ -71,6 +71,7 @@ chmod -x \
   timezones/*/timezones.txt \
 
 chmod +x \
+  cef/libcef.so \
   libclDNN64.so \
   libmkldnn.so \
   libquazip.so \
@@ -174,6 +175,9 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %endif
 
 %changelog
+* Fri Nov 29 2024 Dominik Mierzejewski <dominik@greysector.net> - 6.2.11.5069-1
+- update to 6.2.11.5069
+
 * Mon Jul 08 2024 Dominik Mierzejewski <dominik@greysector.net> - 6.1.1.443-1
 - update to 6.1.1.443
 
