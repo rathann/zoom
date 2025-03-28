@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Zoom (v4l2convert)
+Name=Zoom Workplace (v4l2convert)
 Comment=Zoom Video Conference (V4L2 conversion wrapper)
 Exec=/usr/bin/zoom-v4l2convert %U
 Icon=Zoom
@@ -8,6 +8,6 @@ Type=Application
 Encoding=UTF-8
 Categories=Network;Application;
 StartupWMClass=zoom
-MimeType=x-scheme-handler/zoommtg;x-scheme-handler/zoomus;x-scheme-handler/tel;x-scheme-handler/callto;x-scheme-handler/zoomphonecall;application/x-zoom
-X-KDE-Protocols=zoommtg;zoomus;tel;callto;zoomphonecall;
-Name[en_US]=Zoom (v4lconvert)
+MimeType=x-scheme-handler/zoommtg;x-scheme-handler/zoomus;x-scheme-handler/tel;x-scheme-handler/callto;x-scheme-handler/zoomphonecall;x-scheme-handler/zoomphonesms;x-scheme-handler/zoomcontactcentercall;application/x-zoom
+X-KDE-Protocols=zoommtg;zoomus;tel;callto;zoomphonecall;zoomphonesms;zoomcontactcentercall;
+Name[en_US]=Zoom Workplace (v4lconvert)

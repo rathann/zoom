@@ -2,11 +2,11 @@
 %define debug_package          %{nil}
 %global _build_id_links alldebug
 %bcond_without bundled_qt5
-%global bundled_qt_version 5.15.17
+%global bundled_qt_version 5.15.18
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 6.2.11.5069
+Version: 6.4.0.471
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -79,9 +79,12 @@ chmod +x \
 for f in \
   aomhost \
   zo{om,pen} \
+  libaomagent.so \
   libdvf.so \
   Qt/lib/libicu{data,i18n,uc}.so.56 \
   libquazip.so \
+  ZoomLauncher \
+  ZoomWebviewHost \
 ; do chrpath -d $f ; done
 rm -r \
 %if ! %{with bundled_qt5}
@@ -144,9 +147,11 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/cef/v8_context_snapshot.bin
 %{_libdir}/zoom/cef/vk_swiftshader_icd.json
 %{_libdir}/zoom/chatapp
+%{_libdir}/zoom/diagnostic/diagnostic.zip
 %{_libdir}/zoom/email
 %{_libdir}/zoom/Embedded.properties
 %{_libdir}/zoom/getbssid.sh
+%{_libdir}/zoom/js/html_sanitizer_mail.js
 %{_libdir}/zoom/json
 %{_libdir}/zoom/libaomagent.so
 %{_libdir}/zoom/libavcodec.so.59
@@ -154,11 +159,11 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/libavutil.so.57
 %{_libdir}/zoom/libswresample.so.4
 %{_libdir}/zoom/libclDNN64.so
+%{_libdir}/zoom/libcml.so
 %{_libdir}/zoom/libdvf.so
 %{_libdir}/zoom/libmkldnn.so
 %{_libdir}/zoom/libmpg123.so
 %{_libdir}/zoom/ringtone
-%{_libdir}/zoom/scheduler
 %{_libdir}/zoom/sip
 %{_libdir}/zoom/timezones
 %{_libdir}/zoom/translations
@@ -175,6 +180,9 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %endif
 
 %changelog
+* Fri Mar 28 2025 Dominik Mierzejewski <dominik@greysector.net> - 6.4.0.471-1
+- update to 6.4.0 (471)
+
 * Fri Nov 29 2024 Dominik Mierzejewski <dominik@greysector.net> - 6.2.11.5069-1
 - update to 6.2.11.5069
 
