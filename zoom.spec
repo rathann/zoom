@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 6.4.0.471
+Version: 6.4.5.1259
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -61,6 +61,15 @@ Zoom, the cloud meeting company, unifies cloud video conferencing, simple online
 meetings, and group messaging into one easy-to-use platform. Our solution offers
 the best video, audio, and screen-sharing experience across Zoom Rooms, Windows,
 Mac, Linux, iOS, Android, and H.323/SIP room systems.
+
+%package v4l2convert
+Summary: v4l2convert wrapper for Zoom
+Requires: %{name} = %{version}-%{release}
+Requires: libv4l%{_isa}
+
+%description v4l2convert
+This package contains a v4l2convert wrapper for Zoom to fix video issues with
+webcams missing support for colorspace formats required by Zoom
 
 %prep
 %setup -q -n zoom
@@ -122,9 +131,7 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 
 %files
 %{_bindir}/zoom
-%{_bindir}/zoom-v4l2convert
 %{_datadir}/applications/Zoom.desktop
-%{_datadir}/applications/Zoom-v4l2convert.desktop
 %{_datadir}/icons/hicolor/256x256/apps/Zoom.png
 %{_datadir}/mime/packages/zoom.xml
 %dir %{_libdir}/zoom
@@ -179,7 +186,15 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/qt.conf
 %endif
 
+%files v4l2convert
+%{_bindir}/zoom-v4l2convert
+%{_datadir}/applications/Zoom-v4l2convert.desktop
+
 %changelog
+* Thu Apr 17 2025 Dominik Mierzejewski <dominik@greysector.net> - 6.4.5.1259-1
+- update to 6.4.5 (1259)
+- move the v4l2convert wrapper to a separate subpackage
+
 * Fri Mar 28 2025 Dominik Mierzejewski <dominik@greysector.net> - 6.4.0.471-1
 - update to 6.4.0 (471)
 
