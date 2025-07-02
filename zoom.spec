@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 6.4.12.2180
+Version: 6.5.3.2773
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -138,7 +138,7 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/aomhost
 %{_libdir}/zoom/calendar
 %dir %{_libdir}/zoom/cef
-%attr(4755,root,root) %{_libdir}/zoom/cef/chrome-sandbox
+%attr(4755,root,root) %{_libdir}/zoom/cef/chrome_sandbox
 %{_libdir}/zoom/cef/chrome_*_percent.pak
 %{_libdir}/zoom/cef/icudtl.dat
 %{_libdir}/zoom/cef/libcef.so
@@ -150,15 +150,14 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/cef/libvulkan.so.1
 %{_libdir}/zoom/cef/locales
 %{_libdir}/zoom/cef/resources.pak
-%{_libdir}/zoom/cef/snapshot_blob.bin
 %{_libdir}/zoom/cef/v8_context_snapshot.bin
 %{_libdir}/zoom/cef/vk_swiftshader_icd.json
-%{_libdir}/zoom/chatapp
 %{_libdir}/zoom/diagnostic/diagnostic.zip
 %{_libdir}/zoom/email
 %{_libdir}/zoom/Embedded.properties
 %{_libdir}/zoom/getbssid.sh
-%{_libdir}/zoom/js/html_sanitizer_mail.js
+%{_libdir}/zoom/imjs
+%{_libdir}/zoom/js
 %{_libdir}/zoom/json
 %{_libdir}/zoom/libaomagent.so
 %{_libdir}/zoom/libavcodec.so.59
@@ -191,6 +190,9 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_datadir}/applications/Zoom-v4l2convert.desktop
 
 %changelog
+* Wed Jul 02 2025 Dominik Mierzejewski <dominik@greysector.net> - 6.5.3.2773-1
+- update to 6.5.3 (2773)
+
 * Wed Jun 04 2025 Dominik Mierzejewski <dominik@greysector.net> - 6.4.12.2180-1
 - update to 6.4.12 (2180)
 
