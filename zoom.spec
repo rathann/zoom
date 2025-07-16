@@ -6,7 +6,7 @@
 
 Summary: Video and Web Conferencing Service Client
 Name: zoom
-Version: 6.5.3.2773
+Version: 6.5.5.3045
 Release: 1
 URL: https://www.zoom.us/
 Source0: https://zoom.us/client/%{version}/zoom_x86_64.tar.xz#/zoom-%{version}.x86_64.tar.xz
@@ -190,6 +190,9 @@ ln -s ../../libvulkan.so.1 %{buildroot}%{_libdir}/zoom/cef/libvulkan.so.1
 %{_datadir}/applications/Zoom-v4l2convert.desktop
 
 %changelog
+* Wed Jul 16 2025 Dominik Mierzejewski <dominik@greysector.net> - 6.5.5.3045-1
+- update to 6.5.5 (3045)
+
 * Wed Jul 02 2025 Dominik Mierzejewski <dominik@greysector.net> - 6.5.3.2773-1
 - update to 6.5.3 (2773)
 
